@@ -72,4 +72,34 @@ document.addEventListener('DOMContentLoaded', () => {
         
         modal.classList.remove('active')
     })
+
+    //geolocation
+    
+    const res = new Promise((resolve) => {
+        navigator.geolocation.getCurrentPosition(item =>  {            
+            resolve(item.coords);
+        });
+    });
+    
+    res.then(({latitude, longitude} = item) => {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude.toFixed(2)}&lon=${longitude.toFixed(2)}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
+        .then((response) => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            document.querySelector('h1').textContent = data.name;
+        
+            document.querySelector('.weather__now-temp').innerHTML = `${Math.round(data.main.temp)} &deg;C `;
+            document.querySelector('.weather__now-icon img').setAttribute('src', `icons/weather/${data.weather[0].icon}.svg`);
+            document.querySelector('.weather__now-descr-text').textContent = `${data.weather[0].description}`;
+            document.querySelector('.weather__now-descr-feel span').innerHTML = `${Math.round(data.main.feels_like)} &deg;C `;
+            document.querySelector('.weather__now-descr-wind span').textContent = `${Math.round(data.wind.speed)} `;
+        });  
+    })
+
+
+
+         
+    
 })
