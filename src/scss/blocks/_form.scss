@@ -43,7 +43,9 @@
         }
         input {
             appearance: none;
-            display: none;
+            width: 0;
+            height: 0;
+            border: none;
             &:checked + label {
                 background-color: var(--main-color);
                 color: var(--white)
