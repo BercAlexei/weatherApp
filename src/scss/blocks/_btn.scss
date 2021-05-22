@@ -1,0 +1,33 @@
+.btn {
+    border: none;
+    background-color: unset;
+    outline: none;
+    &_setting {
+        text-align: center;
+
+        &:hover {
+            animation: setting_deg linear 7s;
+
+            path {
+                transition: all .3s;
+                fill: var(--main-color);
+            }
+        }
+    }
+
+    &_submit {
+        margin: 20px auto 0 auto;
+        width: 200px;
+        height: 40px;
+        background-color: var(--bottom-color-not-active);
+        font-weight: 200;
+        font-size: 20px;
+        color: var(--text-color);
+        transition: all .3s;
+        &:hover {
+            color: var(--white);
+            background-color: var(--main-color);
+        }
+    }
+
+}

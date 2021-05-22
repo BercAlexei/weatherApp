@@ -1,0 +1,24 @@
+@import 'base/libs';
+@import 'base/fonts';
+@import 'base/vars';
+@import 'base/animation';
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    position: relative;
+    max-width: 940px;
+    margin: 0 auto;
+}
+
+@import 'blocks/main';
+@import 'blocks/title';
+@import 'blocks/weather';
+@import 'blocks/nav';
+@import 'blocks/btn';
+@import 'blocks/modal';
+@import 'blocks/form';
+
+@import 'blocks/media';

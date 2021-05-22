@@ -1,0 +1,13 @@
+.main {
+    position: relative;
+    height: 100vh;
+    padding: 100px 0;
+    background: var(--bg-color);
+
+    &__title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+    }
+}

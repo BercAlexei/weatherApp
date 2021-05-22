@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Погода</title>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="icons/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="icons/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icons/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="icons/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="icons/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icons/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icons/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon/favicon-16x16.png">
+    <link rel="manifest" href="icons/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="icons/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="css/style.min.css">
+</head>
+
+<body>
+
+    <main class="main">
+        <div class="main__title">
+            <h1 class="title">Екатеринбург</h1>
+            <button class="btn btn_setting">
+                <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M36.8599 15.2653L33.8049 14.8769C33.553 14.1017 33.2426 13.3542 32.8802 12.6441L34.7669 10.2147C35.5306 9.23162 35.4412 7.84388 34.5686 6.99888L32.0093 4.4395C31.1561 3.55875 29.7684 3.471 28.7836 4.23313L26.3575 6.11975C25.6474 5.75738 24.8999 5.447 24.1231 5.19513L23.7348 2.145C23.5885 0.921375 22.5501 0 21.32 0H17.68C16.4499 0 15.4115 0.921375 15.2653 2.14013L14.8769 5.19513C14.1001 5.447 13.3526 5.75575 12.6425 6.11975L10.2147 4.23313C9.23325 3.471 7.8455 3.55875 6.99888 4.43138L4.4395 6.98913C3.55875 7.84388 3.46938 9.23163 4.23313 10.2164L6.11975 12.6441C5.75575 13.3542 5.447 14.1017 5.19513 14.8769L2.145 15.2653C0.921375 15.4115 0 16.4499 0 17.68V21.32C0 22.5501 0.921375 23.5885 2.14013 23.7348L5.19513 24.1231C5.447 24.8983 5.75738 25.6458 6.11975 26.3559L4.23313 28.7853C3.46938 29.7684 3.55875 31.1561 4.43138 32.0011L6.99075 34.5605C7.8455 35.4396 9.23163 35.5274 10.2164 34.7652L12.6441 32.8786C13.3542 33.2426 14.1017 33.553 14.8769 33.8032L15.2653 36.8517C15.4115 38.0786 16.4499 39 17.68 39H21.32C22.5501 39 23.5885 38.0786 23.7348 36.8599L24.1231 33.8049C24.8983 33.553 25.6458 33.2426 26.3559 32.8802L28.7853 34.7669C29.7684 35.5306 31.1561 35.4412 32.0011 34.5686L34.5605 32.0093C35.4412 31.1545 35.5306 29.7684 34.7669 28.7836L32.8802 26.3559C33.2442 25.6458 33.5546 24.8983 33.8049 24.1231L36.8534 23.7348C38.077 23.5885 38.9984 22.5501 38.9984 21.32V17.68C39 16.4499 38.0786 15.4115 36.8599 15.2653ZM19.5 27.625C15.0199 27.625 11.375 23.9801 11.375 19.5C11.375 15.0199 15.0199 11.375 19.5 11.375C23.9801 11.375 27.625 15.0199 27.625 19.5C27.625 23.9801 23.9801 27.625 19.5 27.625Z"
+                        fill="#CBCBCB" />
+                </svg>
+            </button>
+
+        </div>
+
+
+        <div class="weather">
+            <nav class="nav">
+                <a href="" class="nav__link active">Сегодня</a>
+                <a href="" class="nav__link">Завтра</a>
+                <a href="" class="nav__link">24.05.2021</a>
+            </nav>
+
+            <div class="weather__wrapper">
+
+                <div class="weather__now">
+                    <div class="weather__now-item">
+                        <div class="weather__now-icon">
+                            <img src="icons/sunny.svg" alt="sunny">
+                        </div>
+                        <div class="weather__now-temp">
+                            25 &deg;C
+                        </div>
+                    </div>
+
+                    <div class="weather__now-descr">
+                        <div class="weather__now-descr-text li">
+                            Солнечно
+                        </div>
+                        <div class="weather__now-descr-feel li">
+                            Ощущется: <span>27 &deg;C</span>
+                        </div>
+                        <div class="weather__now-descr-wind li">
+                            Ветер: <span>3 м/с</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="weather__hourly">
+                    <div class="weather__hourly-item">
+                        <div class="weather__hourly-hour">16:00</div>
+                        <div class="weather__hourly-temp">
+                            <div class="weather__hourly-temp-icon">
+                                <img src="icons/sunny.svg" alt="sunny">
+                            </div>
+                            <div class="weather__hourly-temp-text">
+                                27 &deg;C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather__hourly-item">
+                        <div class="weather__hourly-hour">16:00</div>
+                        <div class="weather__hourly-temp">
+                            <div class="weather__hourly-temp-icon">
+                                <img src="icons/sunny.svg" alt="sunny">
+                            </div>
+                            <div class="weather__hourly-temp-text">
+                                27 &deg;C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather__hourly-item">
+                        <div class="weather__hourly-hour">16:00</div>
+                        <div class="weather__hourly-temp">
+                            <div class="weather__hourly-temp-icon">
+                                <img src="icons/sunny.svg" alt="sunny">
+                            </div>
+                            <div class="weather__hourly-temp-text">
+                                27 &deg;C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather__hourly-item">
+                        <div class="weather__hourly-hour">16:00</div>
+                        <div class="weather__hourly-temp">
+                            <div class="weather__hourly-temp-icon">
+                                <img src="icons/sunny.svg" alt="sunny">
+                            </div>
+                            <div class="weather__hourly-temp-text">
+                                27 &deg;C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather__hourly-item">
+                        <div class="weather__hourly-hour">16:00</div>
+                        <div class="weather__hourly-temp">
+                            <div class="weather__hourly-temp-icon">
+                                <img src="icons/sunny.svg" alt="sunny">
+                            </div>
+                            <div class="weather__hourly-temp-text">
+                                27 &deg;C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather__hourly-item">
+                        <div class="weather__hourly-hour">16:00</div>
+                        <div class="weather__hourly-temp">
+                            <div class="weather__hourly-temp-icon">
+                                <img src="icons/sunny.svg" alt="sunny">
+                            </div>
+                            <div class="weather__hourly-temp-text">
+                                27 &deg;C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather__hourly-item">
+                        <div class="weather__hourly-hour">16:00</div>
+                        <div class="weather__hourly-temp">
+                            <div class="weather__hourly-temp-icon">
+                                <img src="icons/sunny.svg" alt="sunny">
+                            </div>
+                            <div class="weather__hourly-temp-text">
+                                27 &deg;C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather__hourly-item">
+                        <div class="weather__hourly-hour">16:00</div>
+                        <div class="weather__hourly-temp">
+                            <div class="weather__hourly-temp-icon">
+                                <img src="icons/sunny.svg" alt="sunny">
+                            </div>
+                            <div class="weather__hourly-temp-text">
+                                27 &deg;C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather__hourly-item">
+                        <div class="weather__hourly-hour">16:00</div>
+                        <div class="weather__hourly-temp">
+                            <div class="weather__hourly-temp-icon">
+                                <img src="icons/sunny.svg" alt="sunny">
+                            </div>
+                            <div class="weather__hourly-temp-text">
+                                27 &deg;C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather__hourly-item">
+                        <div class="weather__hourly-hour">16:00</div>
+                        <div class="weather__hourly-temp">
+                            <div class="weather__hourly-temp-icon">
+                                <img src="icons/sunny.svg" alt="sunny">
+                            </div>
+                            <div class="weather__hourly-temp-text">
+                                27 &deg;C
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="modal">
+            <div class="modal__window">
+                <h2 class="title title_fz36">Настройки</h2>
+                <div class="modal__window-close">&times;</div>
+                <form class="form" action="#">
+                    <div class="form__citys">
+                        <label for="city">Город:</label>
+                        <input placeholder="Москва" id="city" type="text">
+                    </div>
+
+                    <div class="form__theme">
+                        <div class="form__theme-text">
+                            Тема:
+                        </div>
+                        <div class="form__theme-radios">
+                            <input data-radio checked name="theme" type="radio" id="light" value="light">
+                            <label for="light">Светлая</label>
+
+                            <input data-radio name="theme" type="radio" id="dark" value="dark">
+                            <label for="dark">Темная</label>
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn_submit">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/script.min.js"></script>
+</body>
+
+</html>

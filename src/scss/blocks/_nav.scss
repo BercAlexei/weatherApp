@@ -1,0 +1,40 @@
+.nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__link {
+        position: relative;
+        text-decoration: none;
+        margin-right: 35px;
+        font-weight: 200;
+        font-size: 24px;
+        line-height: 20px;
+        color: var(--text-color);
+        &:after {
+            content: '';
+            position: absolute;
+            display: block;
+            margin-top: 5px;
+            height: 1px;
+            width: 0;
+            left:50%;
+            transform: translateX(-50%);
+            background-color: var(--main-color);
+            transition: all .3s;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+        &:hover {
+            color: var(--text-color);
+            &:after {
+                width: 90%;
+            }
+        }
+    }
+
+    .active {
+        font-weight: normal;
+    }
+}
