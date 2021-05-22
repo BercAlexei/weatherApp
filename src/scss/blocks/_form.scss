@@ -41,7 +41,7 @@
                 color: var(--white);
             }
         }
-        input {
+        input[type=radio] {
             appearance: none;
             -webkit-appearance: none;
             width: 0;
