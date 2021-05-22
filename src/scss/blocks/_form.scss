@@ -43,6 +43,7 @@
         }
         input {
             appearance: none;
+            -webkit-appearance: none;
             &:checked + label {
                 background-color: var(--main-color);
                 color: var(--white)
