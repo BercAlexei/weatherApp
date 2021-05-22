@@ -2,6 +2,56 @@
 
 @media (max-width: 992px) {}
 
-@media (max-width: 768px) {}
+@media (max-width: 768px) {
+    .main {
+        padding: 50px 0;
+    }
+    .weather {
+        width: 550px;
+        &__now {
+            &-icon {
+                width: 100px;
+            }
+            flex-direction: column;
+            &-descr {
+                margin-top: 30px;
+            }
+        }
+        &__hourly {
+            grid-template-columns: repeat(4, 95px);
+        }
+    }
+}
 
-@media (max-width: 576px) {}
+@media (max-width: 576px) {
+    .nav {
+        flex-direction: column;
+        &__link {
+            margin: 0;
+            margin-top: 10px;
+        }
+    }
+    .weather {
+        &__now-icon {
+            width: 70px;
+        }
+        width: 300px;
+        &__hourly {
+            grid-template-columns: repeat(2, 95px);
+        }
+    }
+    .modal{
+        &__window {
+            width: 300px;
+            padding: 25px;
+        }
+    }
+
+    .form {
+        &__citys {
+            input {
+                width: 170px;
+            }
+        }
+    }
+}

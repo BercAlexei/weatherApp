@@ -10,22 +10,26 @@ document.addEventListener('DOMContentLoaded', () => {
     setting.addEventListener('click', (event) => {
         event.preventDefault();
         modal.classList.add('active');
+        document.querySelector('body').style.overflow = 'hidden'
     });
 
     closeModal.addEventListener('click', (event) => {
         event.preventDefault();
         modal.classList.remove('active');
+        document.querySelector('body').style.overflow = '';
     });
 
     modal.addEventListener('click', (event) => {
         if (event.target === modal) {
             modal.classList.remove('active');
+            document.querySelector('body').style.overflow = '';
         }
     });
 
     document.addEventListener('keydown', (event) => {
         if (event.code === 'Escape') {
-            modal.classList.remove('active')
+            modal.classList.remove('active');
+            document.querySelector('body').style.overflow = '';
         }
     });
 
@@ -69,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             localStorage.setItem('dark', true);
         }
-        
+        document.querySelector('body').style.overflow = '';
         modal.classList.remove('active')
     })
 

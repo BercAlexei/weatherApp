@@ -1,6 +1,5 @@
 .weather {
-    overflow: hidden;
-    position: absolute;
+    position: relative;
     width: 700px;
     min-height: 250px;
     margin-top: 50px;
@@ -8,8 +7,8 @@
     transform: translateX(-50%);
     background: var(--window-bg-color);
     box-shadow: 1px 1px 5px #000000;
-    padding: 20px 0 30px;
-
+    padding: 20px 15px 30px;
+    overflow: hidden;
     &__wrapper {
         display: grid;
         grid-template-columns: 1fr;
@@ -80,21 +79,20 @@
         margin: 50px auto 0 auto;
         display: grid;
         grid-template-columns: repeat(6, 95px);
-        row-gap: 25px;
+        justify-content: center;
+        column-gap: 5px;
+        row-gap: 15px;
+        width: 100%;
+        padding: 15px;
+        background-color: var(--bg-color);
         &-item {
-            border-right: 1px solid var(--text-color);
             padding: 0 5px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
             color: var(--text-color);
-            &:first-child {
-                border-left: 1px solid var(--text-color);
-            }
-            &:nth-child(6n+1) {
-                border-left: 1px solid var(--text-color);
-            }
+            
         }
         &-temp {
             width: 75px;
