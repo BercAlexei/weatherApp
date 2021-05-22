@@ -43,10 +43,7 @@
         }
         input[type=radio] {
             appearance: none;
-            -webkit-appearance: none;
-            width: 0;
-            height: 0;
-            border: none;
+            outline: none;
             &:checked + label {
                 background-color: var(--main-color);
                 color: var(--white)
