@@ -1,5 +1,4 @@
-# gulp-starter
-
+# WeatherApp
 Мини приложение по прогнозу погоды!
 Работа с API, CSS переменными, Grid, localStorage а так же отработка других навыков!
 
