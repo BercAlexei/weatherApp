@@ -8,14 +8,22 @@
     }
 
     .weather {
+        margin-top: 40px;
         width: 550px;
 
         &__now {
+            margin-top: 40px;
+            &-item {
+                flex-direction: column;
+            }
             &-icon {
                 width: 100px;
             }
-
-            flex-direction: column;
+            &-temp {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
 
             &-descr {
                 margin-top: 30px;
@@ -62,13 +70,21 @@
 
     .weather {
         width: 300px;
+        margin-top: 30px;
         &__now{
+            margin-top: 35px;
+            flex-direction: column;
             &-icon {
                 width: 70px;
             }
             &-item {
                 justify-content: center;
                 align-items: center;
+                flex-direction: row;
+            }
+            &-temp {
+                margin-top: 0;
+                margin-left: 15px;
             }
             &-descr {
                 
@@ -85,6 +101,9 @@
 
     }
 
+    .main {
+        padding: 35px 0;
+    }
     .modal {
         &__window {
             width: 300px;

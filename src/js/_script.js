@@ -42,17 +42,21 @@ document.addEventListener('DOMContentLoaded', () => {
           radioBtns = document.querySelectorAll('[data-radio]');
 
 
+    function setNewVarCss (bgColor, winBgColor, textColor, ) {
+        
+    }
+
     function changeTheme() {
         if (darkTheme.checked) {
             root.style.setProperty('--bg-color', '#323232')
             root.style.setProperty('--window-bg-color', '#535353')
             root.style.setProperty('--text-color', 'white')
-            root.style.setProperty('--bottom-color-not-active', '#323232')
+            root.style.setProperty('--button-color-not-active', '#323232')
         } else {
             root.style.setProperty('--bg-color', '#F1F5FE')
             root.style.setProperty('--window-bg-color', '#ffffff')
             root.style.setProperty('--text-color', 'black')
-            root.style.setProperty('--bottom-color-not-active', '#EDEDED')
+            root.style.setProperty('--button-color-not-active', '#EDEDED')
         }
     }
 
@@ -121,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
     }) 
 
+    // slider
 
     let slider = tns({
         container: '.slider__wrapper',
