@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if(localStorage.getItem('dark')) {
+    if(localStorage.getItem('dark') === 'true') {
         darkTheme.checked = true;
     };
     changeTheme();
@@ -66,13 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnSub.addEventListener('click', (e) => {
-        e.preventDefault()
+        e.preventDefault();
         
-        if(localStorage.getItem('dark')) {
-            localStorage.removeItem('dark')
-        } else {
+        if(darkTheme.checked) {
             localStorage.setItem('dark', true);
+        } else {
+            localStorage.setItem('dark', false);
         }
+
         document.querySelector('body').style.overflow = '';
         modal.classList.remove('active')
     })
@@ -104,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }); 
     }
     
-
     let city = document.querySelector('#city');
         
     city.addEventListener('change', () => {
@@ -120,8 +120,4 @@ document.addEventListener('DOMContentLoaded', () => {
             
             })
     }) 
-
-    
-
-    
 })
