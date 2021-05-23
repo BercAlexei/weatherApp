@@ -1,40 +1,37 @@
 .nav{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &__link {
+    margin: 0 auto;
+    width: 200px;
+    position: relative;
+    &:after {
+        pointer-events: none;
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        content: '';
+        width: 15px;
+        height: 15px;
+        background: url('../icons/arrow_down.svg') center center no-repeat;
+        display: block;
+        z-index: 100;
+    }
+    &__list{
+        padding: 0 15px;
         position: relative;
-        text-decoration: none;
-        margin-right: 35px;
-        font-weight: 200;
+        width: 100%;
+        height: 50px;
         font-size: 24px;
-        line-height: 20px;
+        line-height: 24px;
+        font-weight: 200;
+        outline: none;
+        cursor: pointer;
+        background-color: var(--bg-color);
         color: var(--text-color);
-        &:after {
-            content: '';
-            position: absolute;
-            display: block;
-            margin-top: 5px;
-            height: 1px;
-            width: 0;
-            left:50%;
-            transform: translateX(-50%);
-            background-color: var(--main-color);
-            transition: all .3s;
-        }
-        &:last-child {
-            margin-right: 0;
-        }
-        &:hover {
-            color: var(--text-color);
-            &:after {
-                width: 90%;
-            }
+        appearance: none; 
+        border: none;
+        &-li {
+            font-size: 16px;
         }
     }
 
-    .active {
-        font-weight: normal;
-    }
 }

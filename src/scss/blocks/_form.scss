@@ -1,7 +1,7 @@
 .form {
     margin-top: 30px;
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     &__citys {
         font-weight: 200;
         font-size: 18px;
@@ -11,7 +11,24 @@
             font-weight: 200;
             font-size: 18px;
             color: var(--text-color-input);
-            width: 200px;
+            width: 350px;
+            border: 1px solid black;
+            border-radius: 0;
+            outline: none;
+            caret-color: var(--main-color);
+        }
+    }
+    &__date {
+        margin-top: 15px;
+        font-weight: 200;
+        font-size: 18px;
+        color: var(--text-color);
+        input {
+            padding: 2px 10px 2px;
+            font-weight: 200;
+            font-size: 18px;
+            color: var(--text-color-input);
+            width: 350px;
             border: 1px solid black;
             border-radius: 0;
             outline: none;

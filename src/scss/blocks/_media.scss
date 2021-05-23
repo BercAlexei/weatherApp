@@ -6,46 +6,86 @@
     .main {
         padding: 50px 0;
     }
+
     .weather {
         width: 550px;
+
         &__now {
             &-icon {
                 width: 100px;
             }
+
             flex-direction: column;
+
             &-descr {
                 margin-top: 30px;
             }
         }
-        &__hourly {
-            grid-template-columns: repeat(4, 95px);
-        }
     }
+
     .btn {
-        &_prev, &_next {
+
+        &_prev,
+        &_next {
             display: none;
         }
+    }
+
+    .slider {
+        padding: 15px;
     }
 }
 
 @media (max-width: 576px) {
+
+    .title {
+        font-size: 36px;
+    }
+
+    .btn {
+        &_setting {
+            svg {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+
     .nav {
         flex-direction: column;
+
         &__link {
             margin: 0;
             margin-top: 10px;
         }
     }
+
     .weather {
-        &__now-icon {
-            width: 70px;
-        }
         width: 300px;
-        &__hourly {
-            grid-template-columns: repeat(2, 95px);
+        &__now{
+            &-icon {
+                width: 70px;
+            }
+            &-item {
+                justify-content: center;
+                align-items: center;
+            }
+            &-descr {
+                
+                font-size: 18px;
+                .li {
+                    &:before {
+                        width: 12px;
+                        height: 12px;
+                    }
+                }
+            }
         }
+        
+
     }
-    .modal{
+
+    .modal {
         &__window {
             width: 300px;
             padding: 25px;
@@ -59,4 +99,5 @@
             }
         }
     }
+
 }
