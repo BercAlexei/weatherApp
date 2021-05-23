@@ -30,4 +30,21 @@
         }
     }
 
+    &_prev, &_next {
+        position: absolute;
+        transform: translateY(-50%);
+        width: 50px;
+        img {
+            width: 100%;
+        }
+    }
+    &_prev {
+        left: 0;
+        top: 50%;
+    }
+    &_next {
+        right: 0;
+        top: 50%;
+    }
+
 }

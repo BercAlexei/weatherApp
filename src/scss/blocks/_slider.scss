@@ -1,0 +1,37 @@
+.slider {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 50px auto 0 auto;
+    padding: 15px 60px;
+    background-color: var(--bg-color);
+    &-hour{
+        text-align: center;
+    }
+    &-item {
+        padding: 0 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        color: var(--text-color);
+        
+    }
+    &-temp {
+        width: 75px;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.tns-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    button {
+        background-color: unset;
+        border: none;
+    }
+}

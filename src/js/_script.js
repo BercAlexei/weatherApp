@@ -120,4 +120,27 @@ document.addEventListener('DOMContentLoaded', () => {
             
             })
     }) 
+
+
+    let slider = tns({
+        container: '.slider__wrapper',
+        // items: 6,
+        slideBy: 3,
+        autoplay: false,
+        slideBy: 1,
+        nav: false,
+        fixedWidth: 110,
+        loop: false,
+        
+        responsive: {
+            768: {
+                prevButton: '.btn_prev',
+                nextButton: '.btn_next',
+            },
+            320: {
+                controls: false
+            }
+          }
+
+      });
 })

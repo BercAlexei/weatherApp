@@ -21,6 +21,11 @@
             grid-template-columns: repeat(4, 95px);
         }
     }
+    .btn {
+        &_prev, &_next {
+            display: none;
+        }
+    }
 }
 
 @media (max-width: 576px) {
