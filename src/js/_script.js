@@ -42,27 +42,25 @@ document.addEventListener('DOMContentLoaded', () => {
           radioBtns = document.querySelectorAll('[data-radio]');
 
 
-    function setNewVarCss (bgColor, winBgColor, textColor, ) {
-        
+    function setNewVarCss (bgColor, winBgColor, textColor, buttonColorNotActive) {
+        root.style.setProperty('--bg-color', bgColor)
+        root.style.setProperty('--window-bg-color', winBgColor)
+        root.style.setProperty('--text-color', textColor )
+        root.style.setProperty('--button-color-not-active', buttonColorNotActive )
     }
 
     function changeTheme() {
         if (darkTheme.checked) {
-            root.style.setProperty('--bg-color', '#323232')
-            root.style.setProperty('--window-bg-color', '#535353')
-            root.style.setProperty('--text-color', 'white')
-            root.style.setProperty('--button-color-not-active', '#323232')
+            setNewVarCss('#323232', '#535353', 'white', '#323232')
         } else {
-            root.style.setProperty('--bg-color', '#F1F5FE')
-            root.style.setProperty('--window-bg-color', '#ffffff')
-            root.style.setProperty('--text-color', 'black')
-            root.style.setProperty('--button-color-not-active', '#EDEDED')
+            setNewVarCss('#F1F5FE', '#ffffff', 'black', '#EDEDED')
         }
     }
 
     if(localStorage.getItem('dark') === 'true') {
         darkTheme.checked = true;
     };
+
     changeTheme();
 
     radioBtns.forEach(item => {
@@ -84,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //geolocation
     
-    const res = new Promise((resolve) => {
+    const res = new Promise(resolve => {
         navigator.geolocation.getCurrentPosition(item =>  {            
             resolve(item.coords);
         });
@@ -148,4 +146,34 @@ document.addEventListener('DOMContentLoaded', () => {
           }
 
       });
+
+    // getDate and setOptins
+    const dateSelect = document.querySelector('#date').childNodes;
+
+	let date = new Date();
+    
+	dateSelect.forEach(item => {
+
+		item.textContent = date.toLocaleString('ru', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric'
+        });
+
+        switch(item.textContent) {
+            case dateSelect[0].textContent:
+                dateSelect[0].text = 'Сегодня';
+                break;
+            case dateSelect[1].textContent:
+                dateSelect[1].text = 'Завтра';
+                break;
+        }
+
+		date.setDate(date.getDate() + 1);
+	});
+
+    console.dir(dateSelect[0])
+
+
+
 })
