@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //theme
 
     const root = document.querySelector(':root'),
-          rootStyle = getComputedStyle(root),
+        //   rootStyle = getComputedStyle(root),
           darkTheme = document.querySelector('#dark'),
           btnSub = document.querySelector('.btn_submit'),
           radioBtns = document.querySelectorAll('[data-radio]');
@@ -169,11 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
         }
 
+        console.dir(item)
+
 		date.setDate(date.getDate() + 1);
+
 	});
-
-    console.dir(dateSelect[0])
-
 
 
 })

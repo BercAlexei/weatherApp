@@ -1,14 +1,14 @@
 .weather {
     position: relative;
     width: 700px;
-    min-height: 250px;
-    margin-top: 50px;
+    min-height: 550px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--window-bg-color);
     box-shadow: 1px 1px 5px #000000;
     padding: 20px 15px 30px;
     overflow: hidden;
+    margin-top: 50px;
     &__wrapper {
         display: grid;
         grid-template-columns: 1fr;
@@ -19,7 +19,6 @@
         display: flex;
         justify-content: space-evenly;
         align-items: center;
-        margin-top: 50px;
         &-item {
             display: flex;
             justify-content: center;
@@ -70,6 +69,55 @@
                     background: url(../icons/check-mark.svg) center (center / cover)  no-repeat;
                 }
             }
+        }
+        
+    }
+
+    &__dayly{
+        display: grid;
+        justify-content: space-between;
+        grid-template-columns: 1fr;
+        margin-top: 15px;
+        max-height: 200px;
+        overflow-y: scroll;
+        scrollbar-color: var(--main-color) transparent;
+        scrollbar-width: thin;
+        &::-webkit-scrollbar{
+            appearance: none;
+            width: 6px;
+            background-color: transparent;
+        }
+        &::-webkit-scrollbar-thumb{
+            appearance: none;
+            width: 6px;
+            background-color: var(--main-color) ;
+        }
+
+        &-item {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        &-day {
+            font-weight: 200;
+            font-size: 30px;
+            line-height: 30px;
+            color: var(--text-color);
+            
+        }
+        &-icon {
+            width: 50px;
+            img {
+                display: block;
+                width: 100%;
+            }
+        }
+        &-temp {
+            font-weight: 200;
+            font-size: 30px;
+            line-height: 30px;
+            color: var(--text-color);
         }
     }
 
