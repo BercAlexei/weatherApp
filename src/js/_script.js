@@ -92,22 +92,50 @@ document.addEventListener('DOMContentLoaded', () => {
         weatherOfCitys(latitude, longitude)
     })
 
+
+
+    const city = document.querySelector('#city');
+
     function weatherOfCitys(lat, lon) {
         fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
-            .then((response) => {
+        .then((response) => {
+
+            const spinner = document.querySelector('.spinner');
+
+            if(response.status === 200){
+                spinner.classList.add('hide')
                 return response.json();
-            })
-            .then(data => {
-                document.querySelector('h1').textContent = data.name;
-                document.querySelector('.weather__now-temp').innerHTML = `${Math.round(data.main.temp)} &deg;C `;
-                document.querySelector('.weather__now-icon img').setAttribute('src', `icons/weather/${data.weather[0].icon}.svg`);
-                document.querySelector('.weather__now-descr-text').textContent = `${data.weather[0].description}`;
-                document.querySelector('.weather__now-descr-feel span').innerHTML = `${Math.round(data.main.feels_like)} &deg;C `;
-                document.querySelector('.weather__now-descr-wind span').textContent = `${Math.round(data.wind.speed)} `;
-            }); 
+            }
+        })
+        .then(data => {
+
+            const weatherNow = document.querySelector('.weather__now'),
+                  cityName = document.querySelector('h1');
+
+            cityName.textContent = data.name;
+            weatherNow.innerHTML = `
+                <div class="weather__now-item">
+                    <div class="weather__now-icon">
+                        <img src="icons/weather/${data.weather[0].icon}.svg" alt="sunny">
+                    </div>
+                    <div class="weather__now-temp">${Math.round(data.main.temp)} &deg;C</div>
+                </div>
+
+                <div class="weather__now-descr">
+                    <div class="weather__now-descr-text li">${data.weather[0].description}</div>
+                    <div class="weather__now-descr-feel li">
+                        Ощущется: <span>${Math.round(data.main.feels_like)} &deg;C</span>
+                    </div>
+                    <div class="weather__now-descr-wind li">
+                        Ветер: <span>${Math.round(data.wind.speed)} </span>м/с
+                    </div>
+                </div>
+            `
+        })
+
     }
     
-    let city = document.querySelector('#city');
+
         
     city.addEventListener('change', () => {
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
@@ -148,32 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
     // getDate and setOptins
-    const dateSelect = document.querySelector('#date').childNodes;
 
 	let date = new Date();
     
-	dateSelect.forEach(item => {
-
-		item.textContent = date.toLocaleString('ru', {
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric'
-        });
-
-        switch(item.textContent) {
-            case dateSelect[0].textContent:
-                dateSelect[0].text = 'Сегодня';
-                break;
-            case dateSelect[1].textContent:
-                dateSelect[1].text = 'Завтра';
-                break;
-        }
-
-        console.dir(item)
-
-		date.setDate(date.getDate() + 1);
-
-	});
 
 
 })
