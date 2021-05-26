@@ -77,11 +77,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         document.querySelector('body').style.overflow = '';
+    
         modal.classList.remove('active')
+
+        city.value = '';
     })
 
     //geolocation
-    
+    const city = document.querySelector('#city'),
+          cityName = document.querySelector('h1'),
+          weatherNow = document.querySelector('.weather__now'),
+          spinner = document.querySelector('.spinner');
+
+
     const res = new Promise(resolve => {
         navigator.geolocation.getCurrentPosition(item =>  {            
             resolve(item.coords);
@@ -90,94 +98,161 @@ document.addEventListener('DOMContentLoaded', () => {
 
     res.then(({latitude, longitude} = item) => {
         weatherOfCitys(latitude, longitude)
-    })
+    });
 
-
-
-    const city = document.querySelector('#city');
-
-    function weatherOfCitys(lat, lon) {
-        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
-        .then((response) => {
-
-            const spinner = document.querySelector('.spinner');
-
-            if(response.status === 200){
-                spinner.classList.add('hide')
-                return response.json();
-            }
-        })
-        .then(data => {
-
-            const weatherNow = document.querySelector('.weather__now'),
-                  cityName = document.querySelector('h1');
-
-            cityName.textContent = data.name;
-            weatherNow.innerHTML = `
-                <div class="weather__now-item">
-                    <div class="weather__now-icon">
-                        <img src="icons/weather/${data.weather[0].icon}.svg" alt="sunny">
-                    </div>
-                    <div class="weather__now-temp">${Math.round(data.main.temp)} &deg;C</div>
-                </div>
-
-                <div class="weather__now-descr">
-                    <div class="weather__now-descr-text li">${data.weather[0].description}</div>
-                    <div class="weather__now-descr-feel li">
-                        Ощущется: <span>${Math.round(data.main.feels_like)} &deg;C</span>
-                    </div>
-                    <div class="weather__now-descr-wind li">
-                        Ветер: <span>${Math.round(data.wind.speed)} </span>м/с
-                    </div>
-                </div>
-            `
-        })
-
-    }
-    
-
-        
     city.addEventListener('change', () => {
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
-            .then((response) => {
+            .then(response => {
+                if(!response.ok){
+                    cityName.textContent = 'Город не найден!'
+                }
                 return response.json();
             })
             .then(data => {
             let lat = data.coord.lat,
                 lon = data.coord.lon;
-                
+
                 weatherOfCitys(lat, lon);
-            
+            });
+    }) ;
+
+    function weatherOfCitys(lat, lon) {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
+            .then(response => {
+
+                if(response.status === 200){
+                    spinner.classList.add('hide')
+                    return response.json();
+                }
             })
-    }) 
+            .then(data => {
+                cityName.textContent = data.name;
+                weatherNow.innerHTML = `
+                    <div class="weather__now-item">
+                        <div class="weather__now-icon">
+                            <img src="icons/weather/${data.weather[0].icon}.svg" alt="sunny">
+                        </div>
+                        <div class="weather__now-temp">${Math.round(data.main.temp)} &deg;C</div>
+                    </div>
+
+                    <div class="weather__now-descr">
+                        <div class="weather__now-descr-text li">${data.weather[0].description}</div>
+                        <div class="weather__now-descr-feel li">
+                            Ощущется: <span>${Math.round(data.main.feels_like)} &deg;C</span>
+                        </div>
+                        <div class="weather__now-descr-wind li">
+                            Ветер: <span>${Math.round(data.wind.speed)} </span>м/с
+                        </div>
+                    </div>
+                `
+            })
+    }
+
+    function weatherHourly(time, icon, temp) {
+        let hour = document.createElement('div'),
+        weatherHour = document.querySelector('.slider__wrapper');;
+
+        hour.classList.add('slider-item');
+        hour.innerHTML = `
+            <div class="slider-hour">${time}</div>
+            <div class="slider-temp">
+                <div class="slider-temp-icon">
+                    <img src="icons/weather/${icon}.svg" alt="${icon}">
+                </div>
+                <div class="slider__hourly-temp-text">
+                    ${Math.round(temp)} &deg;C
+                </div>
+            </div>
+        `
+        weatherHour.append(hour);
+    }
+
+    function weatherDaily(time, icon, temp) {
+        let day = document.createElement('div'),
+            weatherDay = document.querySelector('.weather__dayly');
+
+        day.classList.add('weather__dayly-item');
+        day.innerHTML = `
+        <div class="weather__dayly-day">${time}</div>
+        <div class="weather__dayly-icon">
+            <img src="icons/weather/${icon}.svg" alt="${icon}">
+        </div>
+        <div class="weather__dayly-temp">
+            ${Math.round(temp)} &deg;C
+        </div>
+        `
+        weatherDay.append(day);
+    }
+
+
+     
+    fetch('https://api.openweathermap.org/data/2.5/onecall?lat=56.786944&lon=60.7289344&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric')
+        .then(resp => {
+            return resp.json();
+        })
+        .then(data => {
+            data.hourly.shift(0);
+            data.hourly.forEach(item => {
+                let hour = new Date(Number(item.dt + '000')),
+                    temp = Math.round(item.temp),
+                    icon = item.weather[0].icon;
+
+                hour = hour.toLocaleString('ru', {
+                    hour: 'numeric',
+                })
+
+                weatherHourly(hour, icon, temp);
+            }) 
+
+            let slider = tns({
+                container: '.slider__wrapper',
+                slideBy: 3,
+                autoplay: false,
+                slideBy: 1,
+                nav: false,
+                fixedWidth: 110,
+                loop: false,
+                prevButton: '.btn_prev',
+                nextButton: '.btn_next',
+                responsive: {
+                    768: {
+                        controls: true,
+                        
+                    },
+                    320: {
+                        controls: false
+                    }
+                  }
+              });
+
+              console.log(data.daily[0])
+
+            //   1622012400
+
+            data.daily.shift(0);
+            data.daily.forEach(item => {
+                let day = new Date(Number(item.dt + '000')),
+                    icon = item.weather[0].icon,
+                    temp = Math.round(item.temp.day);
+
+
+                day = day.toLocaleString('ru', {
+                    weekday: "long",
+                })
+                weatherDaily(day, icon, temp)
+
+            }) 
+
+
+        })
 
     // slider
 
-    let slider = tns({
-        container: '.slider__wrapper',
-        slideBy: 3,
-        autoplay: false,
-        slideBy: 1,
-        nav: false,
-        fixedWidth: 110,
-        loop: false,
-        prevButton: '.btn_prev',
-        nextButton: '.btn_next',
-        responsive: {
-            768: {
-                controls: true,
-                
-            },
-            320: {
-                controls: false
-            }
-          }
 
-      });
 
     // getDate and setOptins
 
-	let date = new Date();
+	// let date = new Date();
     
 
 
