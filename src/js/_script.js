@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     //theme
 
     const root = document.querySelector(':root'),
-        //   rootStyle = getComputedStyle(root),
           darkTheme = document.querySelector('#dark'),
           btnSub = document.querySelector('.btn_submit'),
           radioBtns = document.querySelectorAll('[data-radio]');
@@ -97,7 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     res.then(({latitude, longitude} = item) => {
-        weatherOfCitys(latitude, longitude)
+
+        weatherOfCitys(latitude, longitude);
+        weatherOfHourDay(latitude, longitude);
     });
 
     city.addEventListener('change', () => {
@@ -106,13 +107,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(!response.ok){
                     cityName.textContent = 'Город не найден!'
                 }
+                if(response.status === 200){
+                    spinner.classList.add('hide')
+                    return response.json();
+                }
                 return response.json();
             })
             .then(data => {
             let lat = data.coord.lat,
                 lon = data.coord.lon;
 
+                document.querySelectorAll('.slider-item').forEach(item => {
+                    item.remove()
+                })
+                document.querySelectorAll('.weather__dayly-item').forEach(item => {
+                    item.remove()
+                })
+
                 weatherOfCitys(lat, lon);
+                weatherOfHourDay(lat, lon);
             });
     }) ;
 
@@ -123,6 +136,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(response.status === 200){
                     spinner.classList.add('hide')
                     return response.json();
+                }
+                if(!response.ok){
+                    cityName.textContent = 'Город не найден!'
                 }
             })
             .then(data => {
@@ -149,8 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function weatherHourly(time, icon, temp) {
-        let hour = document.createElement('div'),
-        weatherHour = document.querySelector('.slider__wrapper');;
+        const hour = document.createElement('div'),
+            weatherHoury = document.querySelector('.slider__wrapper');;
 
         hour.classList.add('slider-item');
         hour.innerHTML = `
@@ -164,43 +180,49 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `
-        weatherHour.append(hour);
+        weatherHoury.append(hour);
     }
 
     function weatherDaily(time, icon, temp) {
-        let day = document.createElement('div'),
-            weatherDay = document.querySelector('.weather__dayly');
+        const day = document.createElement('div'),
+            weatherDays = document.querySelector('.weather__dayly');
 
         day.classList.add('weather__dayly-item');
         day.innerHTML = `
-        <div class="weather__dayly-day">${time}</div>
-        <div class="weather__dayly-icon">
-            <img src="icons/weather/${icon}.svg" alt="${icon}">
-        </div>
-        <div class="weather__dayly-temp">
-            ${Math.round(temp)} &deg;C
-        </div>
+            <div class="weather__dayly-day">${time}</div>
+            <div class="weather__dayly-icon">
+                <img src="icons/weather/${icon}.svg" alt="${icon}">
+            </div>
+            <div class="weather__dayly-temp">
+                ${Math.round(temp)} &deg;C
+            </div>
         `
-        weatherDay.append(day);
+        weatherDays.append(day);
     }
 
-
-     
-    fetch('https://api.openweathermap.org/data/2.5/onecall?lat=56.786944&lon=60.7289344&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric')
+    // lat-56
+    // lon-60
+    function weatherOfHourDay (lat, lon) {
+        fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
         .then(resp => {
             return resp.json();
         })
         .then(data => {
+            console.log(data)
             data.hourly.shift(0);
             data.hourly.forEach(item => {
-                let hour = new Date(Number(item.dt + '000')),
+                // timezone
+                // zone = moment(item.dt * 1000).tz(item.timezone),
+                let hour = new Date(item.dt * 1000),
                     temp = Math.round(item.temp),
                     icon = item.weather[0].icon;
+                    // console.log(zone);
 
                 hour = hour.toLocaleString('ru', {
                     hour: 'numeric',
                 })
 
+                // 1622149200 1622149200
                 weatherHourly(hour, icon, temp);
             }) 
 
@@ -225,13 +247,9 @@ document.addEventListener('DOMContentLoaded', () => {
                   }
               });
 
-              console.log(data.daily[0])
-
-            //   1622012400
-
             data.daily.shift(0);
             data.daily.forEach(item => {
-                let day = new Date(Number(item.dt + '000')),
+                let day = new Date(item.dt * 1000),
                     icon = item.weather[0].icon,
                     temp = Math.round(item.temp.day);
 
@@ -243,17 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             }) 
 
-
         })
-
-    // slider
-
-
-
-    // getDate and setOptins
-
-	// let date = new Date();
-    
-
+    }
 
 })

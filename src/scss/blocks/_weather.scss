@@ -78,6 +78,7 @@
         display: grid;
         justify-content: space-between;
         grid-template-columns: 1fr;
+        padding: 0 25px;
         margin-top: 15px;
         max-height: 200px;
         overflow-y: scroll;
@@ -96,7 +97,7 @@
 
         &-item {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
         }
