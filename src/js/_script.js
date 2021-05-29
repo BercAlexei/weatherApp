@@ -1,5 +1,9 @@
 'use strict'
 
+
+
+// console.log(moment())
+
 document.addEventListener('DOMContentLoaded', () => {
 
     //modal
@@ -208,22 +212,28 @@ document.addEventListener('DOMContentLoaded', () => {
             return resp.json();
         })
         .then(data => {
+            let zone = data.timezone;
+
+            moment.locale('ru');
+            
             console.log(data)
             data.hourly.shift(0);
+            
             data.hourly.forEach(item => {
-                // timezone
-                // zone = moment(item.dt * 1000).tz(item.timezone),
-                let hour = new Date(item.dt * 1000),
+                let hour = moment(item.dt * 1000).tz(zone).format('HH'),
                     temp = Math.round(item.temp),
                     icon = item.weather[0].icon;
-                    // console.log(zone);
 
-                hour = hour.toLocaleString('ru', {
-                    hour: 'numeric',
-                })
-
-                // 1622149200 1622149200
                 weatherHourly(hour, icon, temp);
+            }) 
+
+            data.daily.shift(0);
+            data.daily.forEach(item => {
+                let day = moment(item.dt * 1000).tz(zone).format('dddd'),
+                    icon = item.weather[0].icon,
+                    temp = Math.round(item.temp.day);
+
+                weatherDaily(day, icon, temp)
             }) 
 
             let slider = tns({
@@ -247,21 +257,11 @@ document.addEventListener('DOMContentLoaded', () => {
                   }
               });
 
-            data.daily.shift(0);
-            data.daily.forEach(item => {
-                let day = new Date(item.dt * 1000),
-                    icon = item.weather[0].icon,
-                    temp = Math.round(item.temp.day);
 
-
-                day = day.toLocaleString('ru', {
-                    weekday: "long",
-                })
-                weatherDaily(day, icon, temp)
-
-            }) 
 
         })
     }
 
+
+    
 })

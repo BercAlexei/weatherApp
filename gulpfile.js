@@ -42,15 +42,17 @@ gulp.task('scripts', function () {
 		.src([
 			//подключение библиотек :
 
-			'src/js/**/*',
+			'src/js/libs/moment-with-locales.js',
+			'src/js/libs/moment-timezone-with-data.js',
+			'src/js/libs/tiny-slider.js',
 			'src/js/_script.js',
 		])
 		.pipe(concat('script.min.js'))
-		.pipe(
-			babel({
-				presets: ['@babel/preset-env'],
-			})
-		)
+		// .pipe(
+		// 	babel({
+		// 		presets: ['@babel/preset-env'],
+		// 	})
+		// )
 		.pipe(uglify())
 		.pipe(gulp.dest('dist/js'))
 		.pipe(browserSync.stream())
