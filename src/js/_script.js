@@ -1,9 +1,5 @@
 'use strict'
 
-
-
-// console.log(moment())
-
 document.addEventListener('DOMContentLoaded', () => {
 
     //modal
@@ -204,8 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
         weatherDays.append(day);
     }
 
-    // lat-56
-    // lon-60
     function weatherOfHourDay (lat, lon) {
         fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
         .then(resp => {
@@ -257,11 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   }
               });
 
-
-
         })
     }
 
-
-    
 })
