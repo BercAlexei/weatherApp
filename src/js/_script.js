@@ -134,18 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    function sortArrHourOrDay(arr, timezone, format,  nameClass) {
-        arr.shift(0);            
-        arr.forEach(item => {
-            let time = moment.tz(item.dt * 1000, timezone).format(format),
-                icon = item.weather[0].icon;
-                temp = item.temp.day || item.temp;
-
-            new nameClass(time, icon, temp).render();
-
-        });
-    };
-
     function getWeatherHourAndDay (lat, lon) {
         fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
             .then(resp => {
@@ -261,6 +249,17 @@ document.addEventListener('DOMContentLoaded', () => {
             `
             weatherDays.append(day);
         }
+    };
+
+    function sortArrHourOrDay(arr, timezone, format, nameClass) {
+        arr.shift(0);            
+        arr.forEach(item => {
+            let time = moment.tz(item.dt * 1000, timezone).format(format),
+                icon = item.weather[0].icon;
+                temp = item.temp.day || item.temp;
+
+            new nameClass(time, icon, temp).render();
+        });
     };
 
     function removeWeather(selector) {
