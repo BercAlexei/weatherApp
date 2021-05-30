@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
           btnSub = document.querySelector('.btn_submit'),
           radioBtns = document.querySelectorAll('[data-radio]');
 
-
+    //функция по изменению переменных для темы 
     function setNewVarCss (bgColor, winBgColor, textColor, buttonColorNotActive) {
         root.style.setProperty('--bg-color', bgColor)
         root.style.setProperty('--window-bg-color', winBgColor)
@@ -92,17 +92,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 resolve(item.coords);
             });
           });
-
+    //получение погоды по геопозиции
     res.then(({latitude, longitude} = item) => {
 
         getWeatherOfCitys(latitude, longitude);
         getWeatherHourAndDay(latitude, longitude);
     });
-
+    // вызов функции getWeather 
     city.addEventListener('change', () => {
         getWeather();
     })
-
+    // получение погоды по ширине и долготе, вывод данных на экран
     function getWeatherOfCitys(lat, lon) {
         fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
             .then(response => {
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `
             });
     };
-
+    //получение погоды для часов и дней
     function getWeatherHourAndDay (lat, lon) {
         fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
             .then(resp => {
@@ -141,12 +141,12 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 let timezone = data.timezone;
-
+                //библиотека momentjs для работы с датами(не получалось выводить время для часовых поясов(города))
                 moment.locale('ru');
-
+                //вызов переборов массивов и создание блоков(часы и дни)
                 sortArrHourOrDay(data.hourly, timezone, 'HH',  weatherHour);
                 sortArrHourOrDay(data.daily, timezone, 'dddd', weatherDay);
-
+                //слайдер
                 tns({
                     container: '.slider__wrapper',
                     slideBy: 3,
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
     };
-
+    //получение широты и долготы по названию города, для передачи в  getWeatherOfCitys и getWeatherHourAndDay
     function getWeather() {
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.value.trim()}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
             .then(response => {
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       lon = data.coord.lon,
                       weatherOfHour = document.querySelectorAll('.slider-item'),
                       weatherOfDay = document.querySelectorAll('.weather__dayly-item');
-                
+                //удаление созданных блоков(часы и дни), для создания новых
                 removeWeather(weatherOfHour);
                 removeWeather(weatherOfDay);
 
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 getWeatherHourAndDay(lat, lon);
             });
     };
-
+    //создание классов для фомирования погоды по часам и дням
     class WeatherHourAndDay {
         constructor(time, icon, temp) {
             this.time = time;
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherDays.append(day);
         }
     };
-
+    //функция по перебору массивов полученных из getWeatherHourAndDay и вызов классов для создания новых блоков
     function sortArrHourOrDay(arr, timezone, format, nameClass) {
         arr.shift(0);            
         arr.forEach(item => {
@@ -261,10 +261,10 @@ document.addEventListener('DOMContentLoaded', () => {
             new nameClass(time, icon, temp).render();
         });
     };
-
+    //функция по удалению блоков погоды(часы и дни)
     function removeWeather(selector) {
         selector.forEach(item => {
             item.remove()
         })
     };
-})
+});
