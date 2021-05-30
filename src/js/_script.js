@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelector('body').style.overflow = '';
     
-        modal.classList.remove('active')
+        modal.classList.remove('active');
 
         city.value = '';
     })
@@ -86,59 +86,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const city = document.querySelector('#city'),
           cityName = document.querySelector('h1'),
           weatherNow = document.querySelector('.weather__now'),
-          spinner = document.querySelector('.spinner');
-
-
-    const res = new Promise(resolve => {
-        navigator.geolocation.getCurrentPosition(item =>  {            
-            resolve(item.coords);
-        });
-    });
+          spinner = document.querySelector('.spinner'),
+          res = new Promise(resolve => {
+            navigator.geolocation.getCurrentPosition(item =>  {            
+                resolve(item.coords);
+            });
+          });
 
     res.then(({latitude, longitude} = item) => {
 
-        weatherOfCitys(latitude, longitude);
-        weatherOfHourDay(latitude, longitude);
+        getWeatherOfCitys(latitude, longitude);
+        getWeatherHourAndDay(latitude, longitude);
     });
 
     city.addEventListener('change', () => {
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
-            .then(response => {
-                if(!response.ok){
-                    cityName.textContent = 'Город не найден!'
-                }
-                if(response.status === 200){
-                    spinner.classList.add('hide')
-                    return response.json();
-                }
-                return response.json();
-            })
-            .then(data => {
-            let lat = data.coord.lat,
-                lon = data.coord.lon;
+        getWeather();
+    })
 
-                document.querySelectorAll('.slider-item').forEach(item => {
-                    item.remove()
-                })
-                document.querySelectorAll('.weather__dayly-item').forEach(item => {
-                    item.remove()
-                })
-
-                weatherOfCitys(lat, lon);
-                weatherOfHourDay(lat, lon);
-            });
-    }) ;
-
-    function weatherOfCitys(lat, lon) {
+    function getWeatherOfCitys(lat, lon) {
         fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
             .then(response => {
-
                 if(response.status === 200){
-                    spinner.classList.add('hide')
+                    spinner.classList.add('hide');
                     return response.json();
-                }
-                if(!response.ok){
-                    cityName.textContent = 'Город не найден!'
                 }
             })
             .then(data => {
@@ -148,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="weather__now-icon">
                             <img src="icons/weather/${data.weather[0].icon}.svg" alt="sunny">
                         </div>
-                        <div class="weather__now-temp">${Math.round(data.main.temp)} &deg;C</div>
+                        <div class="weather__now-temp">${Math.round(data.main.temp)}&deg;C</div>
                     </div>
 
                     <div class="weather__now-descr">
@@ -161,97 +131,145 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                 `
-            })
-    }
+            });
+    };
 
-    function weatherHourly(time, icon, temp) {
-        const hour = document.createElement('div'),
-            weatherHoury = document.querySelector('.slider__wrapper');;
-
-        hour.classList.add('slider-item');
-        hour.innerHTML = `
-            <div class="slider-hour">${time}</div>
-            <div class="slider-temp">
-                <div class="slider-temp-icon">
-                    <img src="icons/weather/${icon}.svg" alt="${icon}">
-                </div>
-                <div class="slider__hourly-temp-text">
-                    ${Math.round(temp)} &deg;C
-                </div>
-            </div>
-        `
-        weatherHoury.append(hour);
-    }
-
-    function weatherDaily(time, icon, temp) {
-        const day = document.createElement('div'),
-            weatherDays = document.querySelector('.weather__dayly');
-
-        day.classList.add('weather__dayly-item');
-        day.innerHTML = `
-            <div class="weather__dayly-day">${time}</div>
-            <div class="weather__dayly-icon">
-                <img src="icons/weather/${icon}.svg" alt="${icon}">
-            </div>
-            <div class="weather__dayly-temp">
-                ${Math.round(temp)} &deg;C
-            </div>
-        `
-        weatherDays.append(day);
-    }
-
-    function weatherOfHourDay (lat, lon) {
+    function getWeatherHourAndDay (lat, lon) {
         fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
-        .then(resp => {
-            return resp.json();
-        })
-        .then(data => {
-            let zone = data.timezone;
+            .then(resp => {
+                return resp.json();
+            })
+            .then(data => {
+                let timezone = data.timezone;
 
-            moment.locale('ru');
-            
-            console.log(data)
-            data.hourly.shift(0);
-            
-            data.hourly.forEach(item => {
-                let hour = moment(item.dt * 1000).tz(zone).format('HH'),
-                    temp = Math.round(item.temp),
-                    icon = item.weather[0].icon;
+                moment.locale('ru');
 
-                weatherHourly(hour, icon, temp);
-            }) 
-
-            data.daily.shift(0);
-            data.daily.forEach(item => {
-                let day = moment(item.dt * 1000).tz(zone).format('dddd'),
-                    icon = item.weather[0].icon,
-                    temp = Math.round(item.temp.day);
-
-                weatherDaily(day, icon, temp)
-            }) 
-
-            let slider = tns({
-                container: '.slider__wrapper',
-                slideBy: 3,
-                autoplay: false,
-                slideBy: 1,
-                nav: false,
-                fixedWidth: 110,
-                loop: false,
-                prevButton: '.btn_prev',
-                nextButton: '.btn_next',
-                responsive: {
-                    768: {
-                        controls: true,
+                data.hourly.shift(0);            
+                data.hourly.forEach(item => {
+                    let hour = moment.tz(item.dt * 1000, timezone).format('HH'),
+                        icon = item.weather[0].icon,
+                        temp = Math.round(item.temp);
                         
-                    },
-                    320: {
-                        controls: false
+                    new weatherHour(hour, icon, temp).render();
+
+                });
+
+                data.daily.shift(0);
+                data.daily.forEach(item => {
+                    let day = moment.tz(item.dt * 1000, timezone).format('dddd'),
+                        icon = item.weather[0].icon,
+                        temp = Math.round(item.temp.day);
+
+                    new weatherDay(day, icon, temp).render();
+                }); 
+
+                tns({
+                    container: '.slider__wrapper',
+                    slideBy: 3,
+                    autoplay: false,
+                    slideBy: 1,
+                    nav: false,
+                    fixedWidth: 110,
+                    loop: false,
+                    prevButton: '.btn_prev',
+                    nextButton: '.btn_next',
+                    responsive: {
+                        768: {
+                            controls: true,
+                            
+                        },
+                        320: {
+                            controls: false
+                        }
                     }
-                  }
-              });
+                });
+            });
+    };
 
+    function getWeather() {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
+            .then(response => {
+                if(!response.ok){
+                    cityName.textContent = 'Город не найден!'
+                }
+                if(response.status === 200){
+                    spinner.classList.add('hide')
+                    return response.json();
+                }
+            })
+            .then(data => {
+                const lat = data.coord.lat,
+                      lon = data.coord.lon,
+                      weatherOfHour = document.querySelectorAll('.slider-item'),
+                      weatherOfDay = document.querySelectorAll('.weather__dayly-item');
+                
+                removeWeather(weatherOfHour);
+                removeWeather(weatherOfDay);
+
+                getWeatherOfCitys(lat, lon);
+                getWeatherHourAndDay(lat, lon);
+            });
+    };
+
+    class WeatherHourAndDay {
+        constructor(time, icon, temp) {
+            this.time = time;
+            this.icon = icon;
+            this.temp = temp;
+        }
+    };
+
+    class weatherHour extends WeatherHourAndDay {
+        constructor(time, icon, temp) {
+            super(time, icon, temp);
+        }
+
+        render() {
+            const hour = document.createElement('div'),
+                  weatherHoury = document.querySelector('.slider__wrapper');
+
+            hour.classList.add('slider-item');
+            hour.innerHTML = `
+                <div class="slider-hour">${this.time}</div>
+                <div class="slider-temp">
+                    <div class="slider-temp-icon">
+                        <img src="icons/weather/${this.icon}.svg" alt="${this.icon}">
+                    </div>
+                    <div class="slider__hourly-temp-text">
+                        ${Math.round(this.temp)}&deg;C
+                    </div>
+                </div>
+            `
+            weatherHoury.append(hour);
+        }
+    };
+
+    class weatherDay extends WeatherHourAndDay {
+        constructor(time, icon, temp) {
+            super(time, icon, temp);
+        }
+
+        render() {
+            const day = document.createElement('div'),
+                  weatherDays = document.querySelector('.weather__dayly');
+
+            day.classList.add('weather__dayly-item');
+            day.innerHTML = `
+                <div class="weather__dayly-day">${this.time}</div>
+                <div class="weather__dayly-icon">
+                    <img src="icons/weather/${this.icon}.svg" alt="${this.icon}">
+                </div>
+                <div class="weather__dayly-temp">
+                    ${Math.round(this.temp)}&deg;C
+                </div>
+            `
+            weatherDays.append(day);
+        }
+    };
+
+    function removeWeather(selector) {
+        selector.forEach(item => {
+            item.remove()
         })
-    }
-
+    };
 })
