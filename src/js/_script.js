@@ -134,6 +134,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
+    function sortArrHourOrDay(arr, timezone, format,  nameClass) {
+        arr.shift(0);            
+        arr.forEach(item => {
+            let time = moment.tz(item.dt * 1000, timezone).format(format),
+                icon = item.weather[0].icon;
+                temp = item.temp.day || item.temp;
+
+            new nameClass(time, icon, temp).render();
+
+        });
+    };
+
     function getWeatherHourAndDay (lat, lon) {
         fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
             .then(resp => {
@@ -144,24 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 moment.locale('ru');
 
-                data.hourly.shift(0);            
-                data.hourly.forEach(item => {
-                    let hour = moment.tz(item.dt * 1000, timezone).format('HH'),
-                        icon = item.weather[0].icon,
-                        temp = Math.round(item.temp);
-                        
-                    new weatherHour(hour, icon, temp).render();
-
-                });
-
-                data.daily.shift(0);
-                data.daily.forEach(item => {
-                    let day = moment.tz(item.dt * 1000, timezone).format('dddd'),
-                        icon = item.weather[0].icon,
-                        temp = Math.round(item.temp.day);
-
-                    new weatherDay(day, icon, temp).render();
-                }); 
+                sortArrHourOrDay(data.hourly, timezone, 'HH',  weatherHour);
+                sortArrHourOrDay(data.daily, timezone, 'dddd', weatherDay);
 
                 tns({
                     container: '.slider__wrapper',
@@ -187,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function getWeather() {
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.value.trim()}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
             .then(response => {
                 if(!response.ok){
                     cityName.textContent = 'Город не найден!'
