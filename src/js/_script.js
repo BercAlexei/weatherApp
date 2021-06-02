@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
         arr.forEach(item => {
             let time = moment.tz(item.dt * 1000, timezone).format(format),
                 icon = item.weather[0].icon;
-                temp = item.temp.day || item.temp;
+                temp = item.temp.day ?? item.temp;
 
             new nameClass(time, icon, temp).render();
         });

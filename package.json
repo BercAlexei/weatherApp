@@ -31,8 +31,7 @@
     "gulp-imagemin": "^7.1.0",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^4.1.0",
-    "gulp-uglify": "^3.0.2",
-    "uglify-js": "github:mishoo/UglifyJS2#harmony"
+    "gulp-terser": "^2.0.1"
   },
   "browserslist": [
     "last 2 version",
@@ -41,7 +40,6 @@
     "not dead"
   ],
   "dependencies": {
-    "bootstrap": "^5.0.1",
-    "uglify-es": "github:mishoo/UglifyJS2#harmony"
+    "bootstrap": "^5.0.1"
   }
 }
