@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //modal
     const modal = document.querySelector('.modal'),
-          setting = document.querySelector('.btn_setting'),
-          closeModal = document.querySelector('.modal__window-close');
+        setting = document.querySelector('.btn_setting'),
+        closeModal = document.querySelector('.modal__window-close');
 
     setting.addEventListener('click', (event) => {
         event.preventDefault();
@@ -36,16 +36,16 @@ document.addEventListener('DOMContentLoaded', () => {
     //theme
 
     const root = document.querySelector(':root'),
-          darkTheme = document.querySelector('#dark'),
-          btnSub = document.querySelector('.btn_submit'),
-          radioBtns = document.querySelectorAll('[data-radio]');
+        darkTheme = document.querySelector('#dark'),
+        btnSub = document.querySelector('.btn_submit'),
+        radioBtns = document.querySelectorAll('[data-radio]');
 
     //функция по изменению переменных для темы 
-    function setNewVarCss (bgColor, winBgColor, textColor, buttonColorNotActive) {
+    function setNewVarCss(bgColor, winBgColor, textColor, buttonColorNotActive) {
         root.style.setProperty('--bg-color', bgColor)
         root.style.setProperty('--window-bg-color', winBgColor)
-        root.style.setProperty('--text-color', textColor )
-        root.style.setProperty('--button-color-not-active', buttonColorNotActive )
+        root.style.setProperty('--text-color', textColor)
+        root.style.setProperty('--button-color-not-active', buttonColorNotActive)
     }
 
     function changeTheme() {
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if(localStorage.getItem('dark') === 'true') {
+    if (localStorage.getItem('dark') === 'true') {
         darkTheme.checked = true;
     };
 
@@ -68,15 +68,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnSub.addEventListener('click', (e) => {
         e.preventDefault();
-        
-        if(darkTheme.checked) {
+
+        if (darkTheme.checked) {
             localStorage.setItem('dark', true);
         } else {
             localStorage.setItem('dark', false);
         }
 
         document.querySelector('body').style.overflow = '';
-    
+
         modal.classList.remove('active');
 
         city.value = '';
@@ -84,20 +84,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //geolocation
     const city = document.querySelector('#city'),
-          cityName = document.querySelector('h1'),
-          weatherNow = document.querySelector('.weather__now'),
-          spinner = document.querySelector('.spinner'),
-          res = new Promise(resolve => {
-            navigator.geolocation.getCurrentPosition(item =>  {            
-                resolve(item.coords);
-            });
-          });
-    //получение погоды по геопозиции
-    res.then(({latitude, longitude} = item) => {
+        cityName = document.querySelector('h1'),
+        weatherNow = document.querySelector('.weather__now'),
+        spinner = document.querySelector('.spinner'),
+        currentPosition = new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
 
-        getWeatherOfCitys(latitude, longitude);
-        getWeatherHourAndDay(latitude, longitude);
+    //получение погоды по геопозиции
+    currentPosition.then(({coords}) => {
+        getWeatherOfCitys(coords.latitude, coords.longitude);
+        getWeatherHourAndDay(coords.latitude, coords.longitude);
+    }).catch((error) => {
+        console.log(error)
+        alert('Пожалуйста, разрешите геопозицию и перезагрузите страницу!')
     });
+
     // вызов функции getWeather 
     city.addEventListener('change', () => {
         getWeather();
@@ -106,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function getWeatherOfCitys(lat, lon) {
         fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
             .then(response => {
-                if(response.status === 200){
+                if (response.status === 200) {
                     spinner.classList.add('hide');
                     return response.json();
                 }
@@ -131,10 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                 `
+            }).catch((error) => {
+                console.log(error)
             });
     };
     //получение погоды для часов и дней
-    function getWeatherHourAndDay (lat, lon) {
+    function getWeatherHourAndDay(lat, lon) {
         fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
             .then(resp => {
                 return resp.json();
@@ -144,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 //библиотека momentjs для работы с датами(не получалось выводить время для часовых поясов(города))
                 moment.locale('ru');
                 //вызов переборов массивов и создание блоков(часы и дни)
-                sortArrHourOrDay(data.hourly, timezone, 'HH',  weatherHour);
+                sortArrHourOrDay(data.hourly, timezone, 'HH', weatherHour);
                 sortArrHourOrDay(data.daily, timezone, 'dddd', weatherDay);
                 //слайдер
                 tns({
@@ -160,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     responsive: {
                         768: {
                             controls: true,
-                            
+
                         },
                         320: {
                             controls: false
@@ -173,19 +177,19 @@ document.addEventListener('DOMContentLoaded', () => {
     function getWeather() {
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.value.trim()}&appid=42b9a336a38eb7423f252b2cae144b48&lang=ru&units=metric`)
             .then(response => {
-                if(!response.ok){
+                if (!response.ok) {
                     cityName.textContent = 'Город не найден!'
                 }
-                if(response.status === 200){
+                if (response.status === 200) {
                     spinner.classList.add('hide')
                     return response.json();
                 }
             })
             .then(data => {
                 const lat = data.coord.lat,
-                      lon = data.coord.lon,
-                      weatherOfHour = document.querySelectorAll('.slider-item'),
-                      weatherOfDay = document.querySelectorAll('.weather__dayly-item');
+                    lon = data.coord.lon,
+                    weatherOfHour = document.querySelectorAll('.slider-item'),
+                    weatherOfDay = document.querySelectorAll('.weather__dayly-item');
                 //удаление созданных блоков(часы и дни), для создания новых
                 removeWeather(weatherOfHour);
                 removeWeather(weatherOfDay);
@@ -210,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         render() {
             const hour = document.createElement('div'),
-                  weatherHoury = document.querySelector('.slider__wrapper');
+                weatherHoury = document.querySelector('.slider__wrapper');
 
             hour.classList.add('slider-item');
             hour.innerHTML = `
@@ -235,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         render() {
             const day = document.createElement('div'),
-                  weatherDays = document.querySelector('.weather__dayly');
+                weatherDays = document.querySelector('.weather__dayly');
 
             day.classList.add('weather__dayly-item');
             day.innerHTML = `
@@ -252,11 +256,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     //функция по перебору массивов полученных из getWeatherHourAndDay и вызов классов для создания новых блоков
     function sortArrHourOrDay(arr, timezone, format, nameClass) {
-        arr.shift(0);            
+        arr.shift(0);
         arr.forEach(item => {
             let time = moment.tz(item.dt * 1000, timezone).format(format),
                 icon = item.weather[0].icon;
-                temp = item.temp.day ?? item.temp;
+            temp = item.temp.day ?? item.temp;
 
             new nameClass(time, icon, temp).render();
         });
